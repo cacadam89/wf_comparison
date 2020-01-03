@@ -77,12 +77,14 @@ ARG rebuild=0
 # -------------------------------------------------------------------------- #
 
 # Add aliases to bashrc in docker containers
-RUN echo 'alias test_cartographer_go="roslaunch cartographer_ros demo_backpack_2d.launch bag_filename:=/bags/cartographer_paper_deutsches_museum.bag"' >> ~/.bashrc
+RUN echo 'alias test_cartographer_go="roslaunch cartographer_ros demo_backpack_2d.launch bag_filename:=/bags/cartographer_paper_deutsches_museum.bag"' >> ~/.bashrc && \
+    echo 'alias wf_comp_go="roslaunch wf_comparison demo_with_rviz.launch bag_filename:=/bags/cartographer_paper_deutsches_museum.bag"' >> ~/.bashrc
 
 # # Re-pull & Build if ARG rebuild changed
 RUN source /ros_entrypoint.sh && \
     cd wf_comparison_ws/src/wf_comparison && \
     git pull && \
+    cd ~/wf_comparison_ws && \
     catkin_make_isolated --install --use-ninja
 
 # Set GIT config based on local env vars
