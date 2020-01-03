@@ -43,7 +43,7 @@ RUN source /ros_entrypoint.sh && \
 # Clone and Build WF_COMPARISON
 RUN source /ros_entrypoint.sh && \
     cd wf_comparison_ws/src && \
-    git clone --recurse-submodules https://github.com/cacadam89/wf_comparison.git wf_comparison && \
+    git clone --recurse-submodules https://github.com/cacadam89/wf_comparison.git wf_comparison  && \
     cd .. && \
     catkin build
 
