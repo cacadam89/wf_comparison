@@ -40,12 +40,15 @@ RUN source /ros_entrypoint.sh && \
     cd ~/wf_comparison_ws && \
     catkin_make_isolated --install --use-ninja
 
-# Clone and Build WF_COMPARISON
+# # Clone and Build WF_COMPARISON
+# RUN source /ros_entrypoint.sh && \
+#     cd wf_comparison_ws/src && \
+#     git clone --recurse-submodules https://github.com/cacadam89/wf_comparison.git wf_comparison
 RUN source /ros_entrypoint.sh && \
     cd wf_comparison_ws/src && \
     git clone --recurse-submodules https://github.com/cacadam89/wf_comparison.git wf_comparison  && \
     cd .. && \
-    catkin build
+    catkin_make_isolated
 
 # Modify avahi-config (this has to be done)
 RUN perl -p -i -e 's|#allow-interfaces=eth0|allow-interfaces=wlp2s0,wlp2s1|g' /etc/avahi/avahi-daemon.conf
@@ -79,11 +82,11 @@ ARG rebuild=0
 # Add aliases to bashrc in docker containers
 RUN echo 'alias test_cartographer_go="roslaunch cartographer_ros demo_backpack_2d.launch bag_filename:=/bags/cartographer_paper_deutsches_museum.bag"' >> ~/.bashrc
 
-# Re-pull & Build if ARG rebuild changed
+# # Re-pull & Build if ARG rebuild changed
 RUN source /ros_entrypoint.sh && \
     cd wf_comparison_ws/src/wf_comparison && \
     git pull && \
-    catkin build
+    catkin_make_isolated
 
 # Set GIT config based on local env vars
 ARG GIT_NAME=
