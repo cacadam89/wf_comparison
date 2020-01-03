@@ -55,20 +55,12 @@ ENV NVIDIA_VISIBLE_DEVICES ${NVIDIA_VISIBLE_DEVICES:-all}
 ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
 
 # ---------------------------- DEBUG -start ------------------------------ #
-# Install 'ping'
+# Install: ping, locate, nano, x11-apps (xclock)
 RUN apt-get update && apt-get install -y \
         iputils-ping \
-    && rm -rf /var/lib/apt/lists/*
-    
-# Install 'locate'
-RUN apt-get update && apt-get install -y \
         mlocate \
-    && rm -rf /var/lib/apt/lists/* &&\
-    updatedb
-
-# Install 'xclock'
-RUN apt-get update && apt-get install -y \
-        x11-apps \ 
+        nano \
+        x11-apps \
     && rm -rf /var/lib/apt/lists/*
 # ---------------------------- DEBUG - end ------------------------------ #
 

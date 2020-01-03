@@ -4,7 +4,7 @@
   <include file="$(find wf_comparison)/launch/demo.launch" />
 
   <node name="rviz" pkg="rviz" type="rviz" required="true"
-      args="-d $(find wf_comparison)/configuration_files/demo_2d.rviz" />
+      args="-d $(find wf_comparison)/rviz/demo_2d.rviz" />
   <node name="playbag" pkg="rosbag" type="play"
       args="--clock $(arg bag_filename)" />
 </launch>
