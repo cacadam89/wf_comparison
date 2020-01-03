@@ -43,6 +43,10 @@ RUN source /ros_entrypoint.sh && \
 # Modify avahi-config (this has to be done)
 RUN perl -p -i -e 's|#allow-interfaces=eth0|allow-interfaces=wlp2s0,wlp2s1|g' /etc/avahi/avahi-daemon.conf
 
+# Set Env Variables for NVIDIA (or else rviz wont work) - https://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration
+ENV NVIDIA_VISIBLE_DEVICES ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+
 # ---------------------------- DEBUG -start ------------------------------ #
 # Install 'ping'
 RUN apt-get update && apt-get install -y \
@@ -66,8 +70,7 @@ ARG rebuild=0
 # -------------------------------------------------------------------------- #
 
 # Add aliases to bashrc in docker containers
-RUN echo 'alias avahi_go="/etc/init.d/dbus start && service avahi-daemon start"' >> ~/.bashrc && \
-    echo 'alias test_cartographer_go="roslaunch cartographer_ros demo_backpack_2d.launch bag_filename:=/bags/cartographer_paper_deutsches_museum.bag"' >> ~/.bashrc
+RUN echo 'alias test_cartographer_go="roslaunch cartographer_ros demo_backpack_2d.launch bag_filename:=/bags/cartographer_paper_deutsches_museum.bag"' >> ~/.bashrc
 
 # Set GIT config based on local env vars
 ARG GIT_NAME=
@@ -79,3 +82,7 @@ COPY ./wf_compare_entrypoint.sh /
 
 ENTRYPOINT ["/wf_compare_entrypoint.sh"]
 CMD ["bash"]
+
+# my BUILD and RUN commands:
+# docker build $WF_COMPARE_PATH/docker/x86/ -t wf_compare --build-arg GIT_NAME=$DOCKER_GIT_NAME --build-arg GIT_EMAIL=$DOCKER_GIT_EMAIL
+# docker run -it --gpus all --privileged --env-file $WF_COMPARE_PATH/docker/.env -v $WF_COMPARE_PATH/data:/bags:ro -env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" -env="XAUTHORITY=$XAUTH" --volume="$XAUTH:$XAUTH" --runtime=nvidia --network host wf_compare:latest bash
