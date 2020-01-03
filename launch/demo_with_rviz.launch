@@ -1,0 +1,10 @@
+<launch>
+  <param name="/use_sim_time" value="true" />
+
+  <include file="$(find wf_comparison)/launch/backpack_2d.launch" />
+
+  <node name="rviz" pkg="rviz" type="rviz" required="true"
+      args="-d $(find wf_comparison)/configuration_files/demo.rviz" />
+  <node name="playbag" pkg="rosbag" type="play"
+      args="--clock $(arg bag_filename)" />
+</launch>
