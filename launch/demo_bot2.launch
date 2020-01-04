@@ -5,12 +5,23 @@
       <include file="$(find wf_comparison)/launch/demo.launch" />
   </group>
 
+  <group ns="bot2">
+      <include file="$(find wf_comparison)/launch/demo.launch" />
+  </group>
+
   <node name="rviz" pkg="rviz" type="rviz" required="true"
-      args="-d $(find wf_comparison)/rviz/demo_bot1.rviz" />
+      args="-d $(find wf_comparison)/rviz/demo_bot2.rviz" />
+
   <node name="playbag1" pkg="rosbag" type="play" args="--clock $(arg bag_filename1)" >
     <remap from="/horizontal_laser_2d" to="/bot1/horizontal_laser_2d" />
     <remap from="/imu" to="/bot1/imu" />
     <remap from="/vertical_laser_2d" to="/bot1/vertical_laser_2d" />
   </node>
 
+
+  <node name="playbag2" pkg="rosbag" type="play" args="--clock $(arg bag_filename2)" >
+    <remap from="/horizontal_laser_2d" to="/bot2/horizontal_laser_2d" />
+    <remap from="/imu" to="/bot2/imu" />
+    <remap from="/vertical_laser_2d" to="/bot2/vertical_laser_2d" />
+  </node>
 </launch>
