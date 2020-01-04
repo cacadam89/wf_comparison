@@ -1,0 +1,12 @@
+<launch>
+  <param name="/use_sim_time" value="true" />
+
+  <group ns="bot1">
+      <include file="$(find wf_comparison)/launch/demo.launch" />
+  </group>
+
+  <node name="rviz" pkg="rviz" type="rviz" required="true"
+      args="-d $(find wf_comparison)/rviz/demo_bot1.rviz" />
+  <node name="playbag" pkg="rosbag" type="play"
+      args="--clock $(arg bag_filename)" />
+</launch>
