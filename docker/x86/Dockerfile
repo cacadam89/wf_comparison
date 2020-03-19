@@ -71,7 +71,7 @@ ARG rebuild=0
 # Add aliases to bashrc in docker containers
 RUN echo 'alias test_cartographer_go="roslaunch cartographer_ros demo_backpack_2d.launch bag_filename:=/bags/cartographer_paper_deutsches_museum.bag"' >> ~/.bashrc && \
     echo 'alias bot1_go="roslaunch wf_comparison demo_bot1.launch bag_filename1:=/bags/cartographer_paper_deutsches_museum.bag"' >> ~/.bashrc && \
-    echo 'alias bot1_go="roslaunch wf_comparison demo_bot2.launch bag_filename1:=/bags/cartographer_paper_deutsches_museum.bag bag_filename2:=/bags/cartographer_paper_deutsches_museum.bag"' >> ~/.bashrc && \
+    echo 'alias bot2_go="roslaunch wf_comparison demo_bot2.launch bag_filename1:=/bags/cartographer_paper_deutsches_museum.bag bag_filename2:=/bags/cartographer_paper_deutsches_museum.bag"' >> ~/.bashrc && \
     echo 'alias wf_comp_go="roslaunch wf_comparison demo_with_rviz.launch bag_filename:=/bags/cartographer_paper_deutsches_museum.bag"' >> ~/.bashrc
 
 # # Re-pull & Build if ARG rebuild changed
