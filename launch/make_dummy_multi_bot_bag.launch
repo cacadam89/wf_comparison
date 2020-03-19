@@ -1,13 +1,15 @@
 <launch>
+  <arg name="bag_filename" default="cartographer_paper_deutsches_museum1.bag" />
+  <arg name="ns" default="ob" />
   <arg name="num_bots" default="2" />
   <param name="/use_sim_time" value="true" />
 
-  <node name="playbag_source" pkg="rosbag" type="play" args="--clock $(arg bag_filename)" >
+  <node name="playbag_source" pkg="rosbag" type="play" args="--clock /bags/$(arg bag_filename)" >
   </node>
 
-  
    <!-- Launch our main node -->
   <node name="make_dummy_bag_node" pkg="wf_comparison" type="make_dummy_bag_main.py" output="screen">
+    <param name="ns" value="$(arg ns)"/> 
     <param name="num_bots" value="$(arg num_bots)"/> 
   </node>
 
